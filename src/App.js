@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+import About from './pages/About.js'
+import Home from './pages/Home.js'
 import './App.css';
 
-function App() {
+export default function App() {
+  let [mode, setMode] = useState(0)
+
+  const switchMode = (event) => {
+    console.log('switchMode');
+    if(event.keyCode == 39 && mode < 2) {
+      setMode(mode+=1)
+    } else if (event.keyCode == 37 && mode > 0) {
+      setMode(mode-=1)
+    } else {
+      console.log("not left or right");
+    }
+  }
+
+  document.addEventListener('keydown', switchMode)
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {
+        mode == 0
+        &&
+        <Home />
+      }
+      {
+        mode == 1
+        &&
+        <About />
+      }
+      {
+        mode == 2
+        &&
+        <div className="three" />
+      }
     </div>
   );
 }
-
-export default App;
