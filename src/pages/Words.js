@@ -7,12 +7,13 @@ export default function Words() {
 
 	// state: array with words
 	// use effect: refreshes whenever array is updated
-	const words = ['hello', 'hi']
+	const [words, setWords] = useState(['boo'])
 	const [wordToAdd, setWordToAdd] = useState('')
 
 	useEffect(() => {
 		console.log('useEffect called');
 	}, [words])
+
 
 	const handleChange = (e) => {
 		console.log(e.target.value);
@@ -21,7 +22,10 @@ export default function Words() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
+		const newWords = [...words, wordToAdd]
 		words.push(wordToAdd)
+		// console.log("new words", newWords);
+		setWords(newWords)
 		console.log(words);
 		setWordToAdd('')
 	}
@@ -31,6 +35,10 @@ export default function Words() {
 			<p key={word}> {word} </p>
 		)
 	})
+
+	const printWords = () => {
+		console.log(words);
+	}
 
 	return (
 		<>
@@ -44,6 +52,7 @@ export default function Words() {
 				/>
 				<button type='submit'> add word </button>
 			</form>
+			<button onClick={printWords}> print words </button>
 			<div className="WordContainer">
 				{wordsList}
 			</div>
