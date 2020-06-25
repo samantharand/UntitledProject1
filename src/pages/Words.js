@@ -14,24 +14,41 @@ export default function Words() {
 
 	const [words, setWords] = useState(['testing'])
 	const [wordToAdd, setWordToAdd] = useState('')
+	const [mode, setMode] = useState('input')
 
 	useEffect(() => {
 		console.log('useEffect called');
 	}, [])
 
 	const handleChange = (e) => {
-		console.log(e.target.value);
 		setWordToAdd(e.target.value)
 	}
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
-		const newWords = [...words, wordToAdd]
-		words.push(wordToAdd)
+		if(mode === 'input') {
+			const newWords = [...words, wordToAdd]
+			setWords(newWords)
+		} else if (mode === 'textarea') {
+			const indivWords = wordToAdd.split(' ')
+			for(let i = 0; i < indivWords.length; i++) {
+				const newWords = [...words, indivWords[i]]
+				setWords(newWords)
+			}
+			console.log(indivWords);
+		}
+		// words.push(wordToAdd)
 		// console.log("new words", newWords);
-		setWords(newWords)
 		console.log(words);
 		setWordToAdd('')
+	}
+
+	const switchMode = () => {
+		if(mode === 'input') {
+			setMode('textarea')
+		} else {
+			setMode('input')
+		}
 	}
 
 	const resetWords = () => {
@@ -46,20 +63,26 @@ export default function Words() {
 		e.target.style.border = '1px solid grey'
 	}
 
+	const drag = (e) => {
+		e.target.style.display = 'none'
+	}
+
 	const onWordDrop = (e) => {
 		console.log('onWordDrop');
-		console.log(e.clientX, 'clientx');
-		console.log(e.clientY, 'clientY');
-		console.log(e.pageX, 'pageX');
-		console.log(e.pageY, 'pageY');
-		console.log(e.screenX, 'screenX');
-		console.log(e.screenY, 'screenY');
+		// console.log(e.clientX, 'clientx');
+		// console.log(e.clientY, 'clientY');
+		// console.log(e.pageX, 'pageX');
+		// console.log(e.pageY, 'pageY');
+		// console.log(e.screenX, 'screenX');
+		// console.log(e.screenY, 'screenY');
 
-		console.log(e);
-		console.log(e.currentTarget.style);
+		// console.log(e);
+		// console.log(e.currentTarget.style.width);
 
-		e.target.style.left = (e.pageX) + 'px' 
-		e.target.style.top =  (e.pageY) + 'px'
+
+		e.target.style.left = (e.pageX - 50) + 'px' 
+		e.target.style.top =  (e.pageY - 15) + 'px'
+		e.target.style.display = 'block'
 	}
 
 	const wordsList = words.map((word, i) => {
@@ -69,6 +92,7 @@ export default function Words() {
 				draggable='true' 
 				key={i}
 				onDragStart={dragStart}
+				onDrag={drag}
 				> {word} </p>
 		)
 	})
@@ -81,13 +105,27 @@ export default function Words() {
 			onClick={(e) => console.log(e, e.clientX)}
 		>
 			<p>WORDS</p>
+			<button onClick={switchMode}> switch mode </button>
 			<form onSubmit={handleSubmit}>
-				<input 
-					onChange={handleChange}
-					value={wordToAdd}
-					placeholder="type word here"
-					type='text'
-				/>
+				{
+					mode === 'input'
+					&&
+					<input 
+						onChange={handleChange}
+						value={wordToAdd}
+						placeholder="type word here"
+						type='text'
+					/>
+				}
+				{
+					mode === 'textarea'
+					&&
+					<textarea 
+						onChange={handleChange}
+						value={wordToAdd}
+						placeholder="type paragraph here"
+					/>
+				}
 				<button type='submit'> add word </button>
 			</form>
 			<div className="WordContainer">
