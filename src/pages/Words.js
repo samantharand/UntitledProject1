@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import './styles/Words.css'
 
 // form that takes a word and when user hits submit the word appears on screen 
 
@@ -7,13 +8,16 @@ export default function Words() {
 
 	// state: array with words
 	// use effect: refreshes whenever array is updated
-	const [words, setWords] = useState(['boo'])
+	// drag and drop words
+	// maybe make it so u can enter a block of text and it will split them into a bunch of words at the spaces
+		// toggle between words or paragraph input
+
+	const [words, setWords] = useState(['testing'])
 	const [wordToAdd, setWordToAdd] = useState('')
 
 	useEffect(() => {
 		console.log('useEffect called');
-	}, [words])
-
+	}, [])
 
 	const handleChange = (e) => {
 		console.log(e.target.value);
@@ -30,18 +34,45 @@ export default function Words() {
 		setWordToAdd('')
 	}
 
-	const wordsList = words.map(word => {
+	const resetWords = () => {
+		setWords([])
+	}
+
+	const dragStart = (e) => {
+		console.log(e);
+		console.log(e.target.style, 'target style');
+		console.log(e.clientX, 'clientx');
+		console.log(e.clientY, 'clientY');
+		e.target.style.backgroundColor = 'yellow'
+	}
+
+	const onWordDrop = (e) => {
+		console.log('onWordDrop');
+		console.log(e.clientX, 'clientx');
+		console.log(e.clientY, 'clientY');
+		console.log(e);
+
+		e.target.style.backgroundColor = 'red'
+		e.target.style.left = e.clientX + 'px'
+		e.target.style.top = e.clientY + 'px'
+	}
+
+	const wordsList = words.map((word, i) => {
 		return (
-			<p key={word}> {word} </p>
+			<p 
+				className='SingleWord' 
+				draggable='true' 
+				key={i}
+				onDragStart={dragStart}
+				> {word} </p>
 		)
 	})
 
-	const printWords = () => {
-		console.log(words);
-	}
 
 	return (
-		<>
+		<div 
+			className='WordDiv'
+			onDragEnd={onWordDrop}>
 			<p>WORDS</p>
 			<form onSubmit={handleSubmit}>
 				<input 
@@ -52,10 +83,10 @@ export default function Words() {
 				/>
 				<button type='submit'> add word </button>
 			</form>
-			<button onClick={printWords}> print words </button>
 			<div className="WordContainer">
 				{wordsList}
 			</div>
-		</>
+			<button onClick={resetWords}> reset words </button>
+		</div>
 	)
 }

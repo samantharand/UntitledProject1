@@ -1,0 +1,13 @@
+.WordContainer {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	position: relative;
+}
+
+.SingleWord {
+	text-align: center;
+	background: lavender;
+	width: 100px;
+	position: absolute;
+}
