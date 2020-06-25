@@ -40,21 +40,26 @@ export default function Words() {
 
 	const dragStart = (e) => {
 		console.log(e);
-		console.log(e.target.style, 'target style');
+		// console.log(e.target.style, 'target style');
 		console.log(e.clientX, 'clientx');
 		console.log(e.clientY, 'clientY');
-		e.target.style.backgroundColor = 'yellow'
+		e.target.style.border = '1px solid grey'
 	}
 
 	const onWordDrop = (e) => {
 		console.log('onWordDrop');
 		console.log(e.clientX, 'clientx');
 		console.log(e.clientY, 'clientY');
-		console.log(e);
+		console.log(e.pageX, 'pageX');
+		console.log(e.pageY, 'pageY');
+		console.log(e.screenX, 'screenX');
+		console.log(e.screenY, 'screenY');
 
-		e.target.style.backgroundColor = 'red'
-		e.target.style.left = e.clientX + 'px'
-		e.target.style.top = e.clientY + 'px'
+		console.log(e);
+		console.log(e.currentTarget.style);
+
+		e.target.style.left = (e.pageX) + 'px' 
+		e.target.style.top =  (e.pageY) + 'px'
 	}
 
 	const wordsList = words.map((word, i) => {
@@ -72,7 +77,9 @@ export default function Words() {
 	return (
 		<div 
 			className='WordDiv'
-			onDragEnd={onWordDrop}>
+			onDragEnd={onWordDrop}
+			onClick={(e) => console.log(e, e.clientX)}
+		>
 			<p>WORDS</p>
 			<form onSubmit={handleSubmit}>
 				<input 
