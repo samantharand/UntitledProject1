@@ -31,15 +31,18 @@ export default function Words() {
 			setWords(newWords)
 		} else if (mode === 'textarea') {
 			const indivWords = wordToAdd.split(' ')
+			console.log('indivWords', indivWords);
+
 			for(let i = 0; i < indivWords.length; i++) {
-				const newWords = [...words, indivWords[i]]
-				setWords(newWords)
+				console.log(i, indivWords[i]);
+				// const newWords = [...words, indivWords[i]]
+				// setWords(newWords)
+				words.push(indivWords[i])
 			}
-			console.log(indivWords);
 		}
 		// words.push(wordToAdd)
 		// console.log("new words", newWords);
-		console.log(words);
+		// console.log(words);
 		setWordToAdd('')
 	}
 
